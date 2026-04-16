@@ -12,6 +12,8 @@ import Returns from "./pages/Returns";
 import SystemLogs from "./pages/SystemLogs";
 import Masters from "./pages/Masters";
 import NewProduct from "./pages/NewProduct";
+import BlogList from "./pages/BlogList";
+import BlogCreate from "./pages/BlogCreate";
 
 function App() {
   return (
@@ -35,6 +37,11 @@ function App() {
 
             {/* Unified Master configuration */}
             <Route path="masters" element={<Masters />} />
+
+            {/* Blogs */}
+            <Route path="blogs" element={<BlogList />} />
+            <Route path="blogs/create" element={<BlogCreate />} />
+            <Route path="blogs/edit/:id" element={<BlogCreate />} />
           </Route>
 
           {/* Fallback routing */}

@@ -21,7 +21,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = "http://localhost:5000/api";
 
 const Masters = () => {
   const [activeTab, setActiveTab] = useState("category");

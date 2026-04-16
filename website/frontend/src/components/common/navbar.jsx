@@ -24,7 +24,8 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Collection", href: "/product" },
-    { name: "Gemstone guide", href: "/guide" },
+    { name: "Gemstone guide", href: "/gemstones" },
+    { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -36,7 +37,6 @@ const Navbar = () => {
       <header className="fixed top-0 left-0 w-full z-50 bg-[#1a0a0e]/90 backdrop-blur-md border-b border-[#8c7468]/20">
         <div className="w-full px-6 sm:px-10 md:px-14">
           <div className="flex items-center justify-between h-14 sm:h-16">
-
             {/* Logo — left */}
             <Link to="/" className="flex-shrink-0 group">
               <img
@@ -166,7 +166,6 @@ const Navbar = () => {
         </div>
       </header>
 
-
       {/* Mobile Drawer */}
       <div
         className={`fixed inset-0 z-[60] bg-night/95 backdrop-blur-xl transition-all duration-500 ease-in-out lg:hidden ${
@@ -177,7 +176,11 @@ const Navbar = () => {
       >
         <div className="flex flex-col h-full p-6 sm:p-8">
           <div className="flex justify-between items-center mb-10 sm:mb-16">
-            <img src="/images/logo.png" alt="Logo" className="h-8 min-[320px]:h-9 sm:h-10 w-auto" />
+            <img
+              src="/images/logo.png"
+              alt="Logo"
+              className="h-8 min-[320px]:h-9 sm:h-10 w-auto"
+            />
             <button
               onClick={() => setMobileOpen(false)}
               className="text-aurum p-1.5 sm:p-2"

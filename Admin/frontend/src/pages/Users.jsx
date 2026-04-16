@@ -33,7 +33,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/users");
+      const res = await axios.get("http://localhost:5000/api/users");
       setUsers(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -45,7 +45,7 @@ const Users = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`http://localhost:5001/api/users/${id}`);
+        await axios.delete(`http://localhost:5000/api/users/${id}`);
         fetchUsers();
       } catch (error) {
         alert("Failed to delete user");
@@ -57,12 +57,12 @@ const Users = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/users/${editingId}`, {
+        await axios.put(`http://localhost:5000/api/users/${editingId}`, {
           ...formData,
           is_active: true,
         });
       } else {
-        await axios.post("http://localhost:5001/api/auth/register", formData);
+        await axios.post("http://localhost:5000/api/auth/register", formData);
       }
       setShowModal(false);
       resetForm();

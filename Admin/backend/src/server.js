@@ -14,6 +14,8 @@ import inventoryRoutes from './routes/inventoryRoutes.js';
 import returnRoutes from './routes/returnRoutes.js';
 import systemRoutes from './routes/systemRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import blogRoutes from './routes/blogRoutes.js';
+import mailRoutes from './routes/mailRoutes.js';
 import path from 'path';
 
 dotenv.config();
@@ -36,6 +38,8 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/returns', returnRoutes);
 app.use('/api/system', systemRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/mail', mailRoutes);
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

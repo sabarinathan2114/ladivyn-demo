@@ -17,7 +17,7 @@ const MastersPincodes = () => {
 
   const fetchPincodes = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/locations/pincodes');
+      const res = await axios.get('http://localhost:5000/api/locations/pincodes');
       setPincodes(res.data);
     } catch (error) {
       console.error(error);
@@ -27,14 +27,14 @@ const MastersPincodes = () => {
   };
 
   const fetchCities = async () => {
-    const res = await axios.get('http://localhost:5001/api/locations/cities');
+    const res = await axios.get('http://localhost:5000/api/locations/cities');
     setCities(res.data);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/locations/pincodes/${id}`, {
+        await axios.delete(`http://localhost:5000/api/locations/pincodes/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchPincodes();
@@ -49,9 +49,9 @@ const MastersPincodes = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } };
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/locations/pincodes/${editingId}`, formData, config);
+        await axios.put(`http://localhost:5000/api/locations/pincodes/${editingId}`, formData, config);
       } else {
-        await axios.post('http://localhost:5001/api/locations/pincodes', formData, config);
+        await axios.post('http://localhost:5000/api/locations/pincodes', formData, config);
       }
       setShowModal(false);
       setFormData({ pincode: '', city_id: '' });

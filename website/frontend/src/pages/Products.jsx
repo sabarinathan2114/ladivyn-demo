@@ -12,7 +12,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5001/api/products");
+        const res = await axios.get("http://localhost:5000/api/products");
         const formatted = res.data.map((p) => {
           // Robust price string conversion
           const rawPrice = p.display_price || 0;
@@ -22,9 +22,9 @@ const Products = () => {
             id: p.id,
             name: p.name || "Unnamed Gemstone",
             price: priceFormatted,
-            image:
-              p.primary_image ||
-              "https://placehold.co/400x400/2a1721/e6ddca?text=Gemstone", // fallback
+            image: p.primary_image 
+              ? (p.primary_image.startsWith("http") ? p.primary_image : `http://localhost:5000${p.primary_image.startsWith("/") ? "" : "/"}${p.primary_image}`)
+              : "https://placehold.co/400x400/2a1721/e6ddca?text=Gemstone",
             short_description: p.short_description || "",
           };
         });

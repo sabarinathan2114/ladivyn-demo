@@ -34,7 +34,7 @@ const GemstoneSection = () => {
   };
 
   return (
-    <section className="relative w-full py-14 sm:py-18 px-6 sm:px-8 flex flex-col items-center justify-center bg-[#0d0408] bg-[url('/images/crystalsection-bg.png')] bg-no-repeat bg-cover bg-left sm:bg-[position:85%_center] border-y border-[#4a343c]/60 overflow-hidden text-center lg:text-left">
+    <section className="relative w-full py-14 sm:py-18 px-6 sm:px-8 flex flex-col items-center justify-center bg-[#0d0408] bg-[url('/images/crystalsection-bg.png')] bg-no-repeat bg-cover bg-left sm:bg-[position:85%_center] border-y border-[#4a343c]/60 overflow-hidden text-center ">
       {/* ── Keyframes + Styles for Button Animation ── */}
       <style>{`
         .about-sweep {
@@ -75,7 +75,7 @@ const GemstoneSection = () => {
       {/* Optional overlay for subtle depth */}
       <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
 
-      <div className="relative z-10 flex flex-col items-center lg:items-start max-w-[90rem] mx-auto w-full lg:pl-[8%]">
+      <div className="relative z-10 flex flex-col items-center lg:items-center max-w-[90rem] mx-auto w-full">
         <h2 className="text-[#e1d4b7] text-2xl min-[320px]:text-3xl sm:text-4xl lg:text-[2.6rem] font-normal tracking-wider mb-6 font-['Playfair_Display',serif]">
           Understanding Gemstones
         </h2>
@@ -86,7 +86,7 @@ const GemstoneSection = () => {
         <AnimatedButton
           phase={btnPhase}
           setPhase={setBtnPhase}
-          className="bg-[#2a1215] border border-[#5a3a3e] text-[#e6ddca] font-['Playfair_Display',serif] normal-case px-6 py-2 sm:px-10 sm:py-3.5 text-base sm:text-lg tracking-widest font-light hover:bg-[#3d1a1e] hover:border-[#8a5e4d] transition-all duration-500 shadow-xl"
+          className="bg-transparent border border-[#eeab5f8b] text-[#e1d4b7] font-['Playfair_Display',serif] normal-case px-6 py-2.5 sm:px-10 sm:py-3 text-base sm:text-lg tracking-widest font-light hover:bg-[#71300a]/10 hover:border-[#8a5e4d] transition-all duration-500 shadow-xl"
           onClick={() => navigate("/gemstones")}
         >
           Learn More

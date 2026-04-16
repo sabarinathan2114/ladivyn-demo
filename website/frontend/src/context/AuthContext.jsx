@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
           // Set axios default auth header
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           
-          const res = await axios.get("http://localhost:5001/api/auth/me");
+          const res = await axios.get("http://localhost:5000/api/auth/me");
           setUser(res.data);
         } catch (err) {
           console.error("Auth initialization failed:", err);
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post("http://localhost:5001/api/auth/login", {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
         email,
         password,
       });
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const res = await axios.post("http://localhost:5001/api/auth/register", userData);
+      const res = await axios.post("http://localhost:5000/api/auth/register", userData);
       
       const { token: receivedToken, ...userResult } = res.data;
       

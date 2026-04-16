@@ -153,21 +153,21 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* Sticky Foot CTA */}
-            <div className="mt-12 sticky bottom-8 left-0 w-full z-20 animate-[slideUp_0.5s_ease-out]">
-              <div className="bg-[#170a10] border border-[#d4af37] p-6 sm:p-8 rounded-sm shadow-[0_-20px_40px_rgba(0,0,0,0.5)] flex flex-col sm:flex-row items-center justify-between gap-6">
+            {/* Fixed Bottom CTA */}
+            <div className="fixed bottom-0 left-0 w-full z-20 bg-[#170a10]/95 backdrop-blur-xl border-t border-[#d4af37]/30 px-4 py-4 sm:py-6 shadow-[0_-15px_30px_rgba(0,0,0,0.6)] animate-[slideUp_0.5s_ease-out]">
+              <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
-                  <p className="text-[#beaca4] text-xs uppercase tracking-[0.2em] mb-1 font-['Cinzel']">
+                  <p className="text-[#beaca4] text-[10px] uppercase tracking-[0.2em] mb-1 font-['Cinzel']">
                     Grand Total ({totalItems} items)
                   </p>
-                  <p className="text-[#d4af37] text-3xl sm:text-4xl font-bold tracking-tight">
+                  <p className="text-[#d4af37] text-2xl sm:text-3xl font-bold tracking-tight">
                     {formattedTotal}
                   </p>
                 </div>
 
                 <Button
                   onClick={handleOrderAll}
-                  className="w-full sm:w-auto px-5! py-4! rounded-full! bg-[#d4af37]! text-[#170a10]! hover:bg-[#ebd162]! flex items-center justify-center gap-3 text-sm! tracking-[0.2em] font-bold!"
+                  className="w-full sm:w-auto px-10! py-3.5! rounded-full! bg-[#d4af37]! text-[#170a10]! hover:bg-[#ebd162]! flex items-center justify-center gap-3 text-xs! tracking-[0.2em] font-bold! transition-all duration-300"
                 >
                   ORDER ALL
                 </Button>
@@ -191,8 +191,13 @@ const Cart = () => {
               : selectedProduct
                 ? "₹" +
                   (
-                    parseInt(String(selectedProduct.price || "0").replace(/[^\d]/g, ""), 10) *
-                    (selectedProduct.quantity || 1)
+                    parseInt(
+                      String(selectedProduct.price || "0").replace(
+                        /[^\d]/g,
+                        "",
+                      ),
+                      10,
+                    ) * (selectedProduct.quantity || 1)
                   ).toLocaleString("en-IN")
                 : "0"
           }

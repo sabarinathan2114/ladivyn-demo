@@ -65,7 +65,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/products");
+      const res = await axios.get("http://localhost:5000/api/products");
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -76,7 +76,7 @@ const Products = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/categories");
+      const res = await axios.get("http://localhost:5000/api/categories");
       setCategories(res.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -86,7 +86,7 @@ const Products = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`http://localhost:5001/api/products/${id}`);
+        await axios.delete(`http://localhost:5000/api/products/${id}`);
         fetchProducts();
       } catch (error) {
         alert("Failed to delete product");
@@ -99,11 +99,11 @@ const Products = () => {
     try {
       if (editingId) {
         await axios.put(
-          `http://localhost:5001/api/products/${editingId}`,
+          `http://localhost:5000/api/products/${editingId}`,
           formData,
         );
       } else {
-        await axios.post("http://localhost:5001/api/products", formData);
+        await axios.post("http://localhost:5000/api/products", formData);
       }
       setShowModal(false);
       resetForm();
@@ -138,7 +138,7 @@ const Products = () => {
     if (catId) {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/categories/${catId}/subcategories`,
+          `http://localhost:5000/api/categories/${catId}/subcategories`,
         );
         setSubcategories(res.data);
       } catch (err) {}
@@ -168,7 +168,7 @@ const Products = () => {
     if (product.category_id) {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/categories/${product.category_id}/subcategories`,
+          `http://localhost:5000/api/categories/${product.category_id}/subcategories`,
         );
         setSubcategories(res.data);
       } catch (err) {}
@@ -182,7 +182,7 @@ const Products = () => {
     setSelectedProduct(product);
     try {
       const res = await axios.get(
-        `http://localhost:5001/api/products/${product.id}`,
+        `http://localhost:5000/api/products/${product.id}`,
       );
       setProductImages(res.data.images || []);
     } catch (error) {
@@ -202,7 +202,7 @@ const Products = () => {
     try {
       // 1. Upload to server
       const uploadRes = await axios.post(
-        "http://localhost:5001/api/upload",
+        "http://localhost:5000/api/upload",
         formData,
         {
           headers: {
@@ -212,11 +212,11 @@ const Products = () => {
         },
       );
 
-      const fullImageUrl = `http://localhost:5001${uploadRes.data.image}`;
+      const fullImageUrl = `http://localhost:5000${uploadRes.data.image}`;
 
       // 2. Persist to DB
       await axios.post(
-        `http://localhost:5001/api/products/${selectedProduct.id}/images`,
+        `http://localhost:5000/api/products/${selectedProduct.id}/images`,
         {
           image_url: fullImageUrl,
           is_primary: productImages.length === 0,
@@ -230,7 +230,7 @@ const Products = () => {
 
       // 3. Refresh display
       const res = await axios.get(
-        `http://localhost:5001/api/products/${selectedProduct.id}`,
+        `http://localhost:5000/api/products/${selectedProduct.id}`,
       );
       setProductImages(res.data.images || []);
       fetchProducts(); // Update main table too
@@ -247,7 +247,7 @@ const Products = () => {
 
     try {
       await axios.delete(
-        `http://localhost:5001/api/products/${selectedProduct.id}/images/${imageId}`,
+        `http://localhost:5000/api/products/${selectedProduct.id}/images/${imageId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -257,7 +257,7 @@ const Products = () => {
 
       // Refresh management modal
       const res = await axios.get(
-        `http://localhost:5001/api/products/${selectedProduct.id}`,
+        `http://localhost:5000/api/products/${selectedProduct.id}`,
       );
       setProductImages(res.data.images || []);
       fetchProducts(); // Update main list too
@@ -278,7 +278,7 @@ const Products = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/products/bulk-upload",
+        "http://localhost:5000/api/products/bulk-upload",
         formData,
         {
           headers: {
@@ -433,7 +433,7 @@ const Products = () => {
                     <div className="icon-box">
                       {product.primary_image ? (
                         <img
-                          src={product.primary_image}
+                          src={product.primary_image ? (product.primary_image.startsWith("http") ? product.primary_image : `http://localhost:5000${product.primary_image.startsWith("/") ? "" : "/"}${product.primary_image}`) : ""}
                           alt=""
                           style={{
                             width: "100%",

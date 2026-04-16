@@ -17,7 +17,7 @@ const MastersCities = () => {
 
   const fetchCities = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/locations/cities');
+      const res = await axios.get('http://localhost:5000/api/locations/cities');
       setCities(res.data);
     } catch (error) {
       console.error(error);
@@ -27,14 +27,14 @@ const MastersCities = () => {
   };
 
   const fetchDistricts = async () => {
-    const res = await axios.get('http://localhost:5001/api/locations/districts');
+    const res = await axios.get('http://localhost:5000/api/locations/districts');
     setDistricts(res.data);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/locations/cities/${id}`, {
+        await axios.delete(`http://localhost:5000/api/locations/cities/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchCities();
@@ -49,9 +49,9 @@ const MastersCities = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } };
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/locations/cities/${editingId}`, formData, config);
+        await axios.put(`http://localhost:5000/api/locations/cities/${editingId}`, formData, config);
       } else {
-        await axios.post('http://localhost:5001/api/locations/cities', formData, config);
+        await axios.post('http://localhost:5000/api/locations/cities', formData, config);
       }
       setShowModal(false);
       setFormData({ name: '', district_id: '' });

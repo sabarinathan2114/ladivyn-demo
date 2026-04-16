@@ -15,7 +15,7 @@ const MastersStates = () => {
 
   const fetchStates = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/locations/states');
+      const res = await axios.get('http://localhost:5000/api/locations/states');
       setStates(res.data);
     } catch (error) {
       console.error(error);
@@ -27,7 +27,7 @@ const MastersStates = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/locations/states/${id}`, {
+        await axios.delete(`http://localhost:5000/api/locations/states/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchStates();
@@ -42,9 +42,9 @@ const MastersStates = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } };
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/locations/states/${editingId}`, formData, config);
+        await axios.put(`http://localhost:5000/api/locations/states/${editingId}`, formData, config);
       } else {
-        await axios.post('http://localhost:5001/api/locations/states', formData, config);
+        await axios.post('http://localhost:5000/api/locations/states', formData, config);
       }
       setShowModal(false);
       setFormData({ name: '' });

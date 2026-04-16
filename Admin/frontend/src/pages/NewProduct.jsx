@@ -48,7 +48,7 @@ const NewProduct = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/categories");
+      const res = await axios.get("http://localhost:5000/api/categories");
       setCategories(res.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -60,7 +60,7 @@ const NewProduct = () => {
     if (catId) {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/categories/${catId}/subcategories`
+          `http://localhost:5000/api/categories/${catId}/subcategories`
         );
         setSubcategories(res.data);
       } catch (err) {}
@@ -103,18 +103,18 @@ const NewProduct = () => {
         const fileData = new FormData();
         fileData.append("image", selectedFile);
         
-        const uploadRes = await axios.post("http://localhost:5001/api/upload", fileData, {
+        const uploadRes = await axios.post("http://localhost:5000/api/upload", fileData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${localStorage.getItem('token')}` // Ensure auth
           }
         });
         
-        finalImageUrl = `http://localhost:5001${uploadRes.data.image}`;
+        finalImageUrl = `http://localhost:5000${uploadRes.data.image}`;
       }
 
       // 2. Create Product
-      const res = await axios.post("http://localhost:5001/api/products", {
+      const res = await axios.post("http://localhost:5000/api/products", {
         ...formData,
         quantity: formData.available_qty,
       }, {
@@ -128,7 +128,7 @@ const NewProduct = () => {
       // 3. Add Image link if uploaded
       if (finalImageUrl) {
         await axios.post(
-          `http://localhost:5001/api/products/${newProductId}/images`,
+          `http://localhost:5000/api/products/${newProductId}/images`,
           {
             image_url: finalImageUrl,
             is_primary: true,

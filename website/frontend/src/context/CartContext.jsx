@@ -20,6 +20,27 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("ladivyn_cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Migration: Ensure images point to Port 5000 if they were old or relative
+  useEffect(() => {
+    const updatedCart = cart.map(item => {
+      if (item.image && typeof item.image === 'string') {
+        // Replace 5001 with 5000 or prepend 5000 to /uploads
+        let newImg = item.image.replace('localhost:5001', 'localhost:5000');
+        if (newImg.startsWith('/uploads')) {
+          newImg = `http://localhost:5000${newImg}`;
+        }
+        if (newImg !== item.image) {
+          return { ...item, image: newImg };
+        }
+      }
+      return item;
+    });
+
+    if (JSON.stringify(updatedCart) !== JSON.stringify(cart)) {
+      setCart(updatedCart);
+    }
+  }, []);
+
   const addToCart = (product, quantity = 1) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);

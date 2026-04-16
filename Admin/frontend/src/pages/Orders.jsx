@@ -16,7 +16,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/orders');
+      const res = await axios.get('http://localhost:5000/api/orders');
       setOrders(res.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -27,7 +27,7 @@ const Orders = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5001/api/orders/${id}/status`, { status: newStatus });
+      await axios.put(`http://localhost:5000/api/orders/${id}/status`, { status: newStatus });
       fetchOrders();
     } catch (error) {
       alert('Failed to update status');

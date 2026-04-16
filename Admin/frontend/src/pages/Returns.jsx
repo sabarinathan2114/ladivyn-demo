@@ -13,7 +13,7 @@ const Returns = () => {
 
   const fetchReturns = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/returns', {
+      const res = await axios.get('http://localhost:5000/api/returns', {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setReturns(res.data);
@@ -26,7 +26,7 @@ const Returns = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5001/api/returns/${id}/status`, { status: newStatus }, {
+      await axios.put(`http://localhost:5000/api/returns/${id}/status`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       fetchReturns();

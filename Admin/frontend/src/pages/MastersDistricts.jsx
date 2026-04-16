@@ -19,7 +19,7 @@ const MastersDistricts = () => {
     try {
       // Use the generic "get all" if exists, otherwise we might need a specific endpoint
       // Assuming GET /api/locations/districts returns all
-      const res = await axios.get('http://localhost:5001/api/locations/districts');
+      const res = await axios.get('http://localhost:5000/api/locations/districts');
       setDistricts(res.data);
     } catch (error) {
       console.error(error);
@@ -29,14 +29,14 @@ const MastersDistricts = () => {
   };
 
   const fetchStates = async () => {
-    const res = await axios.get('http://localhost:5001/api/locations/states');
+    const res = await axios.get('http://localhost:5000/api/locations/states');
     setStates(res.data);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/locations/districts/${id}`, {
+        await axios.delete(`http://localhost:5000/api/locations/districts/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchDistricts();
@@ -51,9 +51,9 @@ const MastersDistricts = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } };
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/locations/districts/${editingId}`, formData, config);
+        await axios.put(`http://localhost:5000/api/locations/districts/${editingId}`, formData, config);
       } else {
-        await axios.post('http://localhost:5001/api/locations/districts', formData, config);
+        await axios.post('http://localhost:5000/api/locations/districts', formData, config);
       }
       setShowModal(false);
       setFormData({ name: '', state_id: '' });

@@ -13,7 +13,7 @@ const SystemLogs = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/system/audit/logs', {
+      const res = await axios.get('http://localhost:5000/api/system/audit/logs', {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setLogs(res.data);

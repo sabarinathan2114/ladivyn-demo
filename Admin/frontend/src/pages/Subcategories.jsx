@@ -17,7 +17,7 @@ const Subcategories = () => {
 
   const fetchSubcategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/categories/subcategories');
+      const res = await axios.get('http://localhost:5000/api/categories/subcategories');
       setSubcategories(res.data);
     } catch (error) {
       console.error('Error fetching subcategories:', error);
@@ -28,7 +28,7 @@ const Subcategories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/categories');
+      const res = await axios.get('http://localhost:5000/api/categories');
       setCategories(res.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -38,7 +38,7 @@ const Subcategories = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this subcategory?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/categories/subcategories/${id}`, {
+        await axios.delete(`http://localhost:5000/api/categories/subcategories/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchSubcategories();
@@ -52,11 +52,11 @@ const Subcategories = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/categories/subcategories/${editingId}`, formData, {
+        await axios.put(`http://localhost:5000/api/categories/subcategories/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
       } else {
-        await axios.post(`http://localhost:5001/api/categories/${formData.category_id}/subcategories`, formData, {
+        await axios.post(`http://localhost:5000/api/categories/${formData.category_id}/subcategories`, formData, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
       }

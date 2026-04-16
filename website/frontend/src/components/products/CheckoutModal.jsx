@@ -4,18 +4,30 @@ import { FiX, FiCheckCircle } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
 import Button from "../common/Button";
 
-const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, products = null }) => {
+const CheckoutModal = ({
+  isOpen,
+  onClose,
+  product,
+  quantity,
+  totalPrice,
+  products = null,
+}) => {
   const { clearCart, removeFromCart } = useCart();
   // If products is provided, we are checking out the whole cart
   const isMultiProduct = !!products && products.length > 0;
-  
-  const displayProducts = isMultiProduct ? products : [product];
-  const displayQuantity = isMultiProduct ? products.reduce((acc, p) => acc + p.quantity, 0) : quantity;
-  const displayTotal = isMultiProduct 
-    ? "₹" + products.reduce((acc, p) => {
-        const pPrice = parseInt(p.price.replace(/[^\d]/g, ""), 10);
-        return acc + (pPrice * p.quantity);
-      }, 0).toLocaleString("en-IN")
+
+  const displayProducts = isMultiProduct ? (products || []) : (product ? [product] : []);
+  const displayQuantity = isMultiProduct
+    ? (products || []).reduce((acc, p) => acc + (p.quantity || 0), 0)
+    : quantity;
+  const displayTotal = isMultiProduct
+    ? "₹" +
+      products
+        .reduce((acc, p) => {
+          const pPrice = parseInt(p.price.replace(/[^\d]/g, ""), 10);
+          return acc + pPrice * p.quantity;
+        }, 0)
+        .toLocaleString("en-IN")
     : totalPrice;
 
   const [formData, setFormData] = useState({
@@ -34,7 +46,7 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
     states: [],
     districts: [],
     cities: [],
-    pincodes: []
+    pincodes: [],
   });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -48,49 +60,74 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
 
   const fetchStates = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/locations/states");
-      setLocationMasters(prev => ({ ...prev, states: res.data }));
+      const res = await axios.get("http://localhost:5000/api/locations/states");
+      setLocationMasters((prev) => ({ ...prev, states: res.data }));
     } catch (err) {}
   };
 
   const handleStateChange = async (e) => {
     const stateId = e.target.value;
-    const stateName = locationMasters.states.find(s => s.id == stateId)?.name || "";
-    setFormData(prev => ({ ...prev, state: stateName, district: "", city: "", pincode: "" }));
-    setLocationMasters(prev => ({ ...prev, districts: [], cities: [], pincodes: [] }));
-    
+    const stateName =
+      locationMasters.states.find((s) => s.id == stateId)?.name || "";
+    setFormData((prev) => ({
+      ...prev,
+      state: stateName,
+      district: "",
+      city: "",
+      pincode: "",
+    }));
+    setLocationMasters((prev) => ({
+      ...prev,
+      districts: [],
+      cities: [],
+      pincodes: [],
+    }));
+
     if (stateId) {
       try {
-        const res = await axios.get(`http://localhost:5001/api/locations/states/${stateId}/districts`);
-        setLocationMasters(prev => ({ ...prev, districts: res.data }));
+        const res = await axios.get(
+          `http://localhost:5000/api/locations/states/${stateId}/districts`,
+        );
+        setLocationMasters((prev) => ({ ...prev, districts: res.data }));
       } catch (err) {}
     }
   };
 
   const handleDistrictChange = async (e) => {
     const districtId = e.target.value;
-    const districtName = locationMasters.districts.find(d => d.id == districtId)?.name || "";
-    setFormData(prev => ({ ...prev, district: districtName, city: "", pincode: "" }));
-    setLocationMasters(prev => ({ ...prev, cities: [], pincodes: [] }));
+    const districtName =
+      locationMasters.districts.find((d) => d.id == districtId)?.name || "";
+    setFormData((prev) => ({
+      ...prev,
+      district: districtName,
+      city: "",
+      pincode: "",
+    }));
+    setLocationMasters((prev) => ({ ...prev, cities: [], pincodes: [] }));
 
     if (districtId) {
       try {
-        const res = await axios.get(`http://localhost:5001/api/locations/districts/${districtId}/cities`);
-        setLocationMasters(prev => ({ ...prev, cities: res.data }));
+        const res = await axios.get(
+          `http://localhost:5000/api/locations/districts/${districtId}/cities`,
+        );
+        setLocationMasters((prev) => ({ ...prev, cities: res.data }));
       } catch (err) {}
     }
   };
 
   const handleCityChange = async (e) => {
     const cityId = e.target.value;
-    const cityName = locationMasters.cities.find(c => c.id == cityId)?.name || "";
-    setFormData(prev => ({ ...prev, city: cityName, pincode: "" }));
-    setLocationMasters(prev => ({ ...prev, pincodes: [] }));
+    const cityName =
+      locationMasters.cities.find((c) => c.id == cityId)?.name || "";
+    setFormData((prev) => ({ ...prev, city: cityName, pincode: "" }));
+    setLocationMasters((prev) => ({ ...prev, pincodes: [] }));
 
     if (cityId) {
       try {
-        const res = await axios.get(`http://localhost:5001/api/locations/cities/${cityId}/pincodes`);
-        setLocationMasters(prev => ({ ...prev, pincodes: res.data }));
+        const res = await axios.get(
+          `http://localhost:5000/api/locations/cities/${cityId}/pincodes`,
+        );
+        setLocationMasters((prev) => ({ ...prev, pincodes: res.data }));
       } catch (err) {}
     }
   };
@@ -143,10 +180,10 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
     try {
       const orderData = {
         total_amount: parseInt(displayTotal.replace(/[^\d]/g, ""), 10),
-        items: displayProducts.map(p => ({
+        items: displayProducts.map((p) => ({
           product_id: p.id,
           quantity: isMultiProduct ? p.quantity : quantity,
-          price: p.price
+          price: p.price,
         })),
         address_details: {
           customer_name: formData.name,
@@ -156,11 +193,14 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
           state: formData.state,
           district: formData.district,
           city: formData.city,
-          pincode: formData.pincode
-        }
+          pincode: formData.pincode,
+        },
       };
 
-      const res = await axios.post("http://localhost:5001/api/orders", orderData);
+      const res = await axios.post(
+        "http://localhost:5000/api/orders",
+        orderData,
+      );
 
       if (res.data.success) {
         setIsSubmitted(true);
@@ -173,10 +213,16 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
       }
     } catch (err) {
       console.error("Checkout submission failed:", err);
-      const serverMessage = err.response?.data?.message || "There was an issue processing your order.";
-      const detail = err.response?.data?.error ? `\n\nDetail: ${err.response.data.error}` : "";
-      
-      alert(`${serverMessage}${detail}\n\nPlease contact support if this persists.`);
+      const serverMessage =
+        err.response?.data?.message ||
+        "There was an issue processing your order.";
+      const detail = err.response?.data?.error
+        ? `\n\nDetail: ${err.response.data.error}`
+        : "";
+
+      alert(
+        `${serverMessage}${detail}\n\nPlease contact support if this persists.`,
+      );
     } finally {
       setisProcessing(false);
     }
@@ -222,7 +268,9 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
             <p className="text-[#beaca4] font-['Montserrat',sans-serif] text-sm md:text-base leading-relaxed mb-8">
               Thank you for choosing LaDivyn. Your order for{" "}
               <strong className="text-[#d4af37]">
-                {isMultiProduct ? `${displayQuantity} items` : `${quantity}x ${product.name}`}
+                {isMultiProduct
+                  ? `${displayQuantity} items`
+                  : `${quantity}x ${product?.name || "Product"}`}
               </strong>{" "}
               has been received. We will reach out to you shortly!
             </p>
@@ -239,7 +287,10 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
             {/* Order Summary Section */}
             <div className="bg-[#0d0408] p-3 sm:p-4 rounded-sm border border-[#d4af37]/20 mb-5 sm:mb-6 max-h-48 overflow-y-auto custom-scrollbar">
               {displayProducts.map((p, idx) => (
-                <div key={p.id || idx} className={`flex items-center gap-3 sm:gap-4 ${idx !== 0 ? 'mt-4 pt-4 border-t border-[#4a343c]/30' : ''}`}>
+                <div
+                  key={p.id || idx}
+                  className={`flex items-center gap-3 sm:gap-4 ${idx !== 0 ? "mt-4 pt-4 border-t border-[#4a343c]/30" : ""}`}
+                >
                   <img
                     src={p.image}
                     alt={p.name}
@@ -258,19 +309,20 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
                   </div>
                 </div>
               ))}
-              
+
               {isMultiProduct && (
                 <div className="mt-4 pt-4 border-t border-[#d4af37]/40 flex justify-between items-center">
-                   <span className="text-[#beaca4] text-xs uppercase tracking-widest font-['Cinzel']">Total Amount</span>
-                   <span className="text-[#d4af37] text-lg font-bold">{displayTotal}</span>
+                  <span className="text-[#beaca4] text-xs uppercase tracking-widest font-['Cinzel']">
+                    Total Amount
+                  </span>
+                  <span className="text-[#d4af37] text-lg font-bold">
+                    {displayTotal}
+                  </span>
                 </div>
               )}
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-4 sm:space-y-5"
-            >
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               {/* Personal Details */}
               <div className="space-y-3">
                 <h4 className="text-[#d4af37] text-[10px] md:text-xs tracking-widest font-['Cinzel',serif] uppercase mb-2">
@@ -351,12 +403,20 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
                   <div className="mt-1 sm:mt-3">
                     <select
                       name="state"
-                      value={locationMasters.states.find(s => s.name === formData.state)?.id || ""}
+                      value={
+                        locationMasters.states.find(
+                          (s) => s.name === formData.state,
+                        )?.id || ""
+                      }
                       onChange={handleStateChange}
                       className={`w-full bg-[#0d0408] border ${errors.state ? "border-red-500/60" : "border-[#4a343c]"} text-[#e6ddca] px-3 sm:px-4 py-2 sm:py-2.5 rounded-sm focus:border-[#d4af37] focus:outline-none placeholder:text-[#665249] font-['Montserrat',sans-serif] text-xs sm:text-sm transition-colors`}
                     >
                       <option value="">Select State *</option>
-                      {locationMasters.states.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                      {locationMasters.states.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))}
                     </select>
                     {errors.state && (
                       <p className="text-red-400 text-[10px] sm:text-xs mt-1">
@@ -367,13 +427,21 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
                   <div className="mt-3 sm:mt-3">
                     <select
                       name="district"
-                      value={locationMasters.districts.find(d => d.name === formData.district)?.id || ""}
+                      value={
+                        locationMasters.districts.find(
+                          (d) => d.name === formData.district,
+                        )?.id || ""
+                      }
                       onChange={handleDistrictChange}
                       disabled={!formData.state}
                       className={`w-full bg-[#0d0408] border ${errors.district ? "border-red-500/60" : "border-[#4a343c]"} text-[#e6ddca] px-3 sm:px-4 py-2 sm:py-2.5 rounded-sm focus:border-[#d4af37] focus:outline-none placeholder:text-[#665249] font-['Montserrat',sans-serif] text-xs sm:text-sm transition-colors disabled:opacity-50`}
                     >
                       <option value="">Select District *</option>
-                      {locationMasters.districts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                      {locationMasters.districts.map((d) => (
+                        <option key={d.id} value={d.id}>
+                          {d.name}
+                        </option>
+                      ))}
                     </select>
                     {errors.district && (
                       <p className="text-red-400 text-[10px] sm:text-xs mt-1">
@@ -387,13 +455,21 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
                   <div className="mt-3 sm:mt-3">
                     <select
                       name="city"
-                      value={locationMasters.cities.find(c => c.name === formData.city)?.id || ""}
+                      value={
+                        locationMasters.cities.find(
+                          (c) => c.name === formData.city,
+                        )?.id || ""
+                      }
                       onChange={handleCityChange}
                       disabled={!formData.district}
                       className={`w-full bg-[#0d0408] border ${errors.city ? "border-red-500/60" : "border-[#4a343c]"} text-[#e6ddca] px-3 sm:px-4 py-2 sm:py-2.5 rounded-sm focus:border-[#d4af37] focus:outline-none placeholder:text-[#665249] font-['Montserrat',sans-serif] text-xs sm:text-sm transition-colors disabled:opacity-50`}
                     >
                       <option value="">Select City / Town *</option>
-                      {locationMasters.cities.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      {locationMasters.cities.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                      ))}
                     </select>
                     {errors.city && (
                       <p className="text-red-400 text-[10px] sm:text-xs mt-1">
@@ -410,7 +486,11 @@ const CheckoutModal = ({ isOpen, onClose, product, quantity, totalPrice, product
                       className={`w-full bg-[#0d0408] border ${errors.pincode ? "border-red-500/60" : "border-[#4a343c]"} text-[#e6ddca] px-3 sm:px-4 py-2 sm:py-2.5 rounded-sm focus:border-[#d4af37] focus:outline-none placeholder:text-[#665249] font-['Montserrat',sans-serif] text-xs sm:text-sm transition-colors disabled:opacity-50`}
                     >
                       <option value="">Select Pincode *</option>
-                      {locationMasters.pincodes.map(p => <option key={p.id} value={p.pincode}>{p.pincode}</option>)}
+                      {locationMasters.pincodes.map((p) => (
+                        <option key={p.id} value={p.pincode}>
+                          {p.pincode}
+                        </option>
+                      ))}
                     </select>
                     {errors.pincode && (
                       <p className="text-red-400 text-[10px] sm:text-xs mt-1">

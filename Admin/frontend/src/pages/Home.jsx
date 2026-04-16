@@ -26,7 +26,7 @@ const Home = () => {
     const fetchDashboardData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5001/api/system/dashboard-stats",
+          "http://localhost:5000/api/system/dashboard-stats",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

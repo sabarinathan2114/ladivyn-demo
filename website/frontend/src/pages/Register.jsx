@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/common/Button";
 import Navbar from "../components/common/navbar";
-import { FiUser, FiMail, FiLock, FiPhone, FiAlertCircle, FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiUser, FiMail, FiLock, FiPhone, FiAlertCircle, FiEye, FiEyeOff } from "react-icons/fi";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ const Register = () => {
       <Navbar />
 
       <div className="flex-1 flex items-center justify-center p-4 sm:p-8 relative z-10 pt-24 sm:pt-32">
-        <div className="w-full max-w-md animate-[fadeIn_0.8s_ease-out]">
+        <div className="w-full max-w-2xl animate-[fadeIn_0.8s_ease-out]">
           {/* Form Card */}
           <div className="bg-[#1a0c13]/80 backdrop-blur-xl border border-[#d4af37]/20 p-8 sm:p-10 rounded-sm shadow-2xl">
             <div className="text-center mb-10">
@@ -85,83 +85,87 @@ const Register = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
-                    placeholder="Enter your name"
-                  />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
+                    Mobile Number
+                  </label>
+                  <div className="relative">
+                    <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
+                    <input
+                      type="tel"
+                      name="mobile"
+                      required
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
+                      placeholder="10-digit number"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
-                    placeholder="your@email.com"
-                  />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
+                      placeholder="your@email.com"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
-                  Mobile Number
-                </label>
-                <div className="relative">
-                  <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
-                  <input
-                    type="tel"
-                    name="mobile"
-                    required
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
-                    placeholder="10-digit number"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    required
-                    minLength="6"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
-                    placeholder="Minimum 6 characters"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#beaca4]/60 hover:text-[#d4af37] transition-colors"
-                  >
-                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-                  </button>
+                <div>
+                  <label className="block font-['Cinzel'] text-[10px] tracking-widest text-[#d4af37] uppercase mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#beaca4]/40" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      required
+                      minLength="6"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full bg-[#0d0408]/50 border border-[#4a343c] focus:border-[#d4af37] text-[#e6ddca] px-12 py-3 rounded-sm outline-none transition-all duration-300 font-['Montserrat'] text-sm"
+                      placeholder="Minimum 6 characters"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#beaca4]/60 hover:text-[#d4af37] transition-colors"
+                    >
+                      {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -172,7 +176,6 @@ const Register = () => {
                   disabled={loading}
                 >
                   {loading ? "CREATING ACCOUNT..." : "REGISTER NOW"}
-                  {!loading && <FiArrowRight />}
                 </Button>
               </div>
             </form>

@@ -26,7 +26,7 @@ const Locations = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      let url = `http://localhost:5001/api/locations/${activeTab === 'pincodes' ? 'pincodes' : activeTab}`;
+      let url = `http://localhost:5000/api/locations/${activeTab === 'pincodes' ? 'pincodes' : activeTab}`;
       // Note: Backend might need a "GET ALL" for districts/cities/pincodes if we want to list them all.
       // For now, let's assume we want to manage them hierarchically or simply fetch all.
       // If backend doesn't have "get all districts", we'll need to add it or modify this.
@@ -42,7 +42,7 @@ const Locations = () => {
   const fetchAllParents = async () => {
     try {
       const [s] = await Promise.all([
-        axios.get('http://localhost:5001/api/locations/states')
+        axios.get('http://localhost:5000/api/locations/states')
       ]);
       setStates(s.data);
     } catch (err) {}
@@ -51,7 +51,7 @@ const Locations = () => {
   const handleStateChange = async (stateId) => {
     setFormData({...formData, state_id: stateId, district_id: '', city_id: ''});
     if (stateId) {
-      const res = await axios.get(`http://localhost:5001/api/locations/states/${stateId}/districts`);
+      const res = await axios.get(`http://localhost:5000/api/locations/states/${stateId}/districts`);
       setDistricts(res.data);
     }
   };
@@ -59,7 +59,7 @@ const Locations = () => {
   const handleDistrictChange = async (districtId) => {
     setFormData({...formData, district_id: districtId, city_id: ''});
     if (districtId) {
-      const res = await axios.get(`http://localhost:5001/api/locations/districts/${districtId}/cities`);
+      const res = await axios.get(`http://localhost:5000/api/locations/districts/${districtId}/cities`);
       setCities(res.data);
     }
   };
@@ -67,7 +67,7 @@ const Locations = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/locations/${activeTab}/${id}`, {
+        await axios.delete(`http://localhost:5000/api/locations/${activeTab}/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchData();
@@ -82,9 +82,9 @@ const Locations = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } };
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/locations/${activeTab}/${editingId}`, formData, config);
+        await axios.put(`http://localhost:5000/api/locations/${activeTab}/${editingId}`, formData, config);
       } else {
-        await axios.post(`http://localhost:5001/api/locations/${activeTab}`, formData, config);
+        await axios.post(`http://localhost:5000/api/locations/${activeTab}`, formData, config);
       }
       setShowModal(false);
       resetForm();

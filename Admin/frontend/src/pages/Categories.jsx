@@ -15,7 +15,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/categories');
+      const res = await axios.get('http://localhost:5000/api/categories');
       setCategories(res.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -27,7 +27,7 @@ const Categories = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure? This may affect linked products.')) {
       try {
-        await axios.delete(`http://localhost:5001/api/categories/${id}`);
+        await axios.delete(`http://localhost:5000/api/categories/${id}`);
         fetchCategories();
       } catch (error) {
         alert('Failed to delete category');
@@ -39,9 +39,9 @@ const Categories = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/categories/${editingId}`, formData);
+        await axios.put(`http://localhost:5000/api/categories/${editingId}`, formData);
       } else {
-        await axios.post('http://localhost:5001/api/categories', formData);
+        await axios.post('http://localhost:5000/api/categories', formData);
       }
       setShowModal(false);
       setFormData({ name: '', is_active: true });

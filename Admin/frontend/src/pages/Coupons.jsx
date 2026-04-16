@@ -20,7 +20,7 @@ const Coupons = () => {
 
   const fetchCoupons = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/coupons', {
+      const res = await axios.get('http://localhost:5000/api/coupons', {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setCoupons(res.data);
@@ -34,7 +34,7 @@ const Coupons = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Delete this coupon code segments?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/coupons/${id}`, {
+        await axios.delete(`http://localhost:5000/api/coupons/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         fetchCoupons();
@@ -53,11 +53,11 @@ const Coupons = () => {
       };
 
       if (editingId) {
-        await axios.put(`http://localhost:5001/api/coupons/${editingId}`, payload, {
+        await axios.put(`http://localhost:5000/api/coupons/${editingId}`, payload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
       } else {
-        await axios.post('http://localhost:5001/api/coupons', payload, {
+        await axios.post('http://localhost:5000/api/coupons', payload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
       }

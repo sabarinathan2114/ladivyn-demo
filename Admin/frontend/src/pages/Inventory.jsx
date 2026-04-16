@@ -32,7 +32,7 @@ const Inventory = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/inventory", {
+      const res = await axios.get("http://localhost:5000/api/inventory", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -47,7 +47,7 @@ const Inventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/products");
+      const res = await axios.get("http://localhost:5000/api/products");
       setProducts(res.data);
     } catch (error) {}
   };
@@ -55,7 +55,7 @@ const Inventory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5001/api/inventory", formData, {
+      await axios.post("http://localhost:5000/api/inventory", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },

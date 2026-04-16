@@ -75,7 +75,7 @@ const AboutSection = () => {
 
       {/* About LaDivyn Block */}
       <section className="relative w-full py-14 sm:py-20 px-6 flex flex-col items-center justify-center bg-[#170a10] bg-[url('/images/aboutsection-bg.png')] bg-cover bg-center bg-no-repeat overflow-hidden text-center border-none">
-        <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col items-center max-w-[90rem] mx-auto w-full">
           <h2 className="text-[#e1d4b7] text-2xl sm:text-4xl md:text-[2.8rem] font-normal tracking-[0.1em] mb-10 font-['Playfair_Display',serif]">
@@ -83,17 +83,17 @@ const AboutSection = () => {
           </h2>
 
           {/* Top Golden Line */}
-          <div className="w-full max-w-[180px] sm:max-w-[280px] h-[1px] bg-[linear-gradient(to_right,transparent,rgba(212,175,55,0.4),transparent)] mb-10"></div>
+          <div className="w-full max-w-[180px] sm:max-w-[280px] h-[1px] bg-[linear-gradient(to_right,transparent,rgba(212,175,55,0.4),transparent)] mb-6"></div>
 
-          <p className="font-['Playfair_Display',serif] italic text-[#beaca4] text-base sm:text-lg md:text-xl font-light mb-14 max-w-[850px] px-2 leading-relaxed tracking-wide">
+          <p className="font-['Playfair_Display',serif] italic text-[#beaca4] text-base sm:text-lg md:text-xl font-light mb-10 max-w-[850px] px-2 leading-relaxed tracking-wide">
             Inspired by the enduring beauty of the earth, we create pieces that
             connect the natural and the refined.
           </p>
-          
+
           <AnimatedButton
             phase={btnPhase}
             setPhase={setBtnPhase}
-            className="bg-[#2a1215] border border-[#5a3a3e] text-[#e6ddca] font-['Playfair_Display',serif] normal-case px-10 py-3 sm:px-14 sm:py-3.5 text-base sm:text-lg tracking-widest font-light hover:bg-[#3d2024] hover:border-[#8a5e4d] shadow-2xl"
+            className="bg-transparent border border-[#eeab5f8b] text-[#e1d4b7] font-['Playfair_Display',serif] normal-case px-6 py-2.5 sm:px-10 sm:py-3 text-base sm:text-lg tracking-widest font-light hover:bg-[#71300a]/10 hover:border-[#8a5e4d] transition-all duration-500 shadow-xl"
             onClick={() => navigate("/product")}
           >
             Shop Now
@@ -101,7 +101,7 @@ const AboutSection = () => {
         </div>
 
         {/* Decorative Divider at bottom - Exactly like UI */}
-        <div className="relative z-10 w-full flex items-center justify-center mt-20 sm:mt-28 opacity-70">
+        <div className="relative z-10 w-full flex items-center justify-center mt-4 sm:mt-10 opacity-70">
           <div className="h-[1px] bg-[linear-gradient(to_left,rgba(212,175,55,0.5),transparent)] grow max-w-[400px]"></div>
           <span className="px-6 sm:px-10 text-[#d4af37] text-xs sm:text-sm tracking-[0.5em] flex gap-2">
             ✦ ✦

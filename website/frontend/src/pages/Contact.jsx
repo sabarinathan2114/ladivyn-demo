@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Navbar from "../components/common/navbar";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "Bespoke Consultation",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await axios.post("http://localhost:5000/api/mail/contact", formData);
+      setSubmitted(true);
+      setFormData({ name: "", email: "", subject: "Bespoke Consultation", message: "" });
+    } catch (error) {
+      console.error("Failed to send inquiry:", error);
+      const errorMsg = error.response?.data?.error || error.message;
+      alert(`We encountered an issue sending your message: ${errorMsg}\n\nPlease try again or email us directly at concierge@ladivyn.com`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="min-h-screen bg-[#170a10] text-[#F8F8F8] font-['Playfair_Display',serif]">
       <Navbar />
@@ -62,51 +92,85 @@ const Contact = () => {
         </div>
 
         {/* Contact Form */}
-        <div className="bg-[#1a0a0e]/50 border border-[#d4af37]/10 p-8 sm:p-12 shadow-2xl backdrop-blur-sm">
-          <h2 className="text-2xl text-[#e1d4b7] text-center mb-10 font-normal italic">Send a Message</h2>
-          
-          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Full Name</label>
-              <input 
-                type="text" 
-                className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]" 
-                placeholder="Your Name"
-              />
+        <div className="bg-[#1a0a0e]/50 border border-[#d4af37]/10 p-8 sm:p-12 shadow-2xl backdrop-blur-sm relative">
+          {submitted ? (
+            <div className="py-20 text-center animate-[fadeIn_0.5s_ease-out]">
+              <h2 className="text-3xl text-[#d4af37] mb-6 italic">Message Received</h2>
+              <p className="text-[#beaca4] max-w-xs mx-auto mb-10">Our concierge team has been notified. We will reach out to you shortly.</p>
+              <button 
+                onClick={() => setSubmitted(false)}
+                className="px-8 py-3 bg-[#e1d4b7] text-[#1a0a0e] font-bold text-[10px] uppercase tracking-widest"
+              >
+                Send Another
+              </button>
             </div>
+          ) : (
+            <>
+              <h2 className="text-2xl text-[#e1d4b7] text-center mb-10 font-normal italic">Send a Message</h2>
+              <form className="space-y-8" onSubmit={handleSubmit}>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Full Name</label>
+                  <input 
+                    type="text" 
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]" 
+                    placeholder="Your Name"
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Email Address</label>
-              <input 
-                type="email" 
-                className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]" 
-                placeholder="email@example.com"
-              />
-            </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Email Address</label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]" 
+                    placeholder="email@example.com"
+                  />
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">How can we assist you?</label>
-              <select className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]">
-                <option className="bg-[#170a10]">Bespoke Consultation</option>
-                <option className="bg-[#170a10]">Order Inquiry</option>
-                <option className="bg-[#170a10]">Gemstone Sourcing</option>
-                <option className="bg-[#170a10]">General Questions</option>
-              </select>
-            </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">How can we assist you?</label>
+                  <select 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-[#4a343c] py-2 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8]"
+                  >
+                    <option className="bg-[#170a10]">Bespoke Consultation</option>
+                    <option className="bg-[#170a10]">Order Inquiry</option>
+                    <option className="bg-[#170a10]">Gemstone Sourcing</option>
+                    <option className="bg-[#170a10]">General Questions</option>
+                  </select>
+                </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Message</label>
-              <textarea 
-                rows="4"
-                className="w-full bg-transparent border border-[#4a343c] p-4 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8] resize-none" 
-                placeholder="Share your thoughts with us..."
-              />
-            </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#d4af37]/70">Message</label>
+                  <textarea 
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="4"
+                    className="w-full bg-transparent border border-[#4a343c] p-4 focus:border-[#d4af37] outline-none transition-colors font-sans text-[#F8F8F8] resize-none" 
+                    placeholder="Share your thoughts with us..."
+                  />
+                </div>
 
-            <button className="w-full py-4 bg-[#2a1215] border border-[#5a3a3e] text-[#e1d4b7] uppercase tracking-[0.3em] text-xs hover:bg-[#3d2024] hover:border-[#d4af37]/50 transition-all duration-500 shadow-xl">
-              Send Inquire
-            </button>
-          </form>
+                <button 
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-[#2a1215] border border-[#5a3a3e] text-[#e1d4b7] uppercase tracking-[0.3em] text-xs hover:bg-[#3d2024] hover:border-[#d4af37]/50 transition-all duration-500 shadow-xl disabled:opacity-50"
+                >
+                  {isSubmitting ? "Sending..." : "Send Inquiry"}
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </section>
 

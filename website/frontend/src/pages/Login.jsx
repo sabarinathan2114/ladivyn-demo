@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/common/Button";
 import Navbar from "../components/common/navbar";
-import { FiMail, FiLock, FiAlertCircle, FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiMail, FiLock, FiAlertCircle, FiEye, FiEyeOff } from "react-icons/fi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -118,7 +118,6 @@ const Login = () => {
                   disabled={loading}
                 >
                   {loading ? "AUTHENTICATING..." : "SIGN IN"}
-                  {!loading && <FiArrowRight />}
                 </Button>
               </div>
             </form>
